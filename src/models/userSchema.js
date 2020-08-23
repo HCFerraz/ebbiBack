@@ -25,14 +25,6 @@ const userSchema = mongoose.Schema({
     }]
 })
 
-// userSchema.pre('validate', function (next) {
-//     const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//     if(!emailValidation.test(this.email)) {
-//         throw new Error
-//     }
-//     next()
-// })
-
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         this.password = await hasher.hash(this.password, 8)
@@ -48,7 +40,7 @@ userSchema.methods.generateAuthToken = async function () {
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email })
     if (!user) {
         console.error.bind(console, 'Invalid login credentials')
     }

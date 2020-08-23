@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const cardSchema = new mongoose.Schema({
-    frontSide: { type: String, required: true },
-    backSide: { type: String, required: true },
+    frontSide: { type: String, trim: true, required: true },
+    backSide: { type: String, trim: true, required: true },
     _id: false
 });
 
 const deckSchema = new mongoose.Schema({
     categorie: { type: String, required: true },
-    name: { type: String, lowercase: true, required: true },
-    description: { type: String, default: '' },
+    name: { type: String, trim: true, required: true },
+    description: { type: String, trim: true, default: '' },
     image: { type: String },
     cards: [cardSchema]
 });

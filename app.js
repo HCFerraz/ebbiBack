@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const getRoutes = require('./src/routes/getRoutes/routes');
-const postRoutes = require('./src/routes/postRoutes/routes');
+const loginRoutes = require('./src/routes/postRoutes/loginRoutes');
+const deckRoutes = require('./src/routes/postRoutes/deckRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -10,7 +11,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/', getRoutes);
-app.use('/', postRoutes);
+app.use('/', loginRoutes);
+app.use('/', deckRoutes);
 
 
 const PORT = process.env.PORT;
