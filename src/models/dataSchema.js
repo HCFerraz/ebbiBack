@@ -10,8 +10,10 @@ const deckSchema = new mongoose.Schema({
     categorie: { type: String, required: true },
     name: { type: String, trim: true, required: true },
     description: { type: String, trim: true, default: '' },
-    image: { type: String },
-    cards: [cardSchema]
+    image: { type: String }, // Banco externo
+    cards: [cardSchema],
+    private: {type: Boolean, default: false}, // checkbox Input
+    userName: String
 });
 
 const Card = mongoose.model('Data', cardSchema);

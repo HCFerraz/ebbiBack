@@ -1,16 +1,19 @@
 const express = require('express');
 const app = express();
-const getRoutes = require('./src/routes/getRoutes/routes');
-const loginRoutes = require('./src/routes/postRoutes/loginRoutes');
-const deckRoutes = require('./src/routes/postRoutes/deckRoutes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const appRoutes = require('./src/routes/getRoutes/appRoutes');
+const userRoutes = require('./src/routes/getRoutes/userRoutes');
+const loginRoutes = require('./src/routes/postRoutes/loginRoutes');
+const deckRoutes = require('./src/routes/postRoutes/deckRoutes');
 
 app.use(bodyParser.urlencoded( {extended: true} ));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/', getRoutes);
+app.use('/', appRoutes);
+app.use('/', userRoutes);
 app.use('/', loginRoutes);
 app.use('/', deckRoutes);
 

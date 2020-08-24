@@ -1,16 +1,23 @@
 require('../../../database');
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 const { Deck, Card } = require('../../models/dataSchema');
+const { User, UserDeckIDs } = require('../../models/userSchema');
 
 router.post('/newDeck', async (req, res) => {
+    const token = req.header('Authorization').replace('Bearer ', '')
+    const data = jwt.verify(token, process.env.JWT_KEY)
+    const user = await User.findOne({ _id: data._id, 'tokens.token': token })
+
     const deckName = req.body.name;
     const deckCards = req.body.cards;
     if (deckName == '') {
         res.status(406).json({ message: "Insert the deck's name with at least one character" });
         return
     }
+
     let card = []
     if (deckCards.length == 0) {
         res.send({ message: 'Fill all fields' })
@@ -33,11 +40,17 @@ router.post('/newDeck', async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         image: req.body.image,
-        cards: card
+        cards: card,
+        userName: user.name
     })
 
     try {
-        newDeck.save()
+        const userUpdate = await User.findOneAndUpdate({ _id: data._id, 'tokens.token': token }, { $push: { decks: IdDoDeck}})
+        const newDeckToUser = await newDeck.save()
+        // User.update({ decks_ID: newDeckToUser._id  }, { $push: { newDeckToUser._id }})
+        // user.decks_ID.addToSet(newDeckToUser._id)
+        await user.save()
+        console.log(user)
         res.status(201).json({ message: 'Card created successfully' })
     } catch (error) {
         res.status(400).json({ message: error.message })

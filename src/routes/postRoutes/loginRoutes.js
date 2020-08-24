@@ -2,7 +2,7 @@ require('../../../database');
 const express = require('express');
 const router = express.Router();
 
-const User = require('../../models/userSchema');
+const { User } = require('../../models/userSchema');
 const auth = require('../../auth');
 
 router.post('/users', async (req, res) => {
@@ -25,7 +25,7 @@ router.post('/users', async (req, res) => {
         return
     }
 
-    if (userName.match(containLetters) == null || userName.match(containNumbers) == null) {
+    if (userName.match(containLetters) == null) {
         res.status(406).json({ message: 'Name must contain at least one letter and one number' });
         return
     }
@@ -41,7 +41,7 @@ router.post('/users', async (req, res) => {
     }
 
     if (userPassoword.length < 8) {
-        res.status(406).json({ message: 'Insert a password with more than 6 characters' });
+        res.status(406).json({ message: 'Insert a password with more than 8 characters' });
         return
     }
 

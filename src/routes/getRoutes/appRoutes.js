@@ -2,7 +2,7 @@ require('../../../database')
 const express = require('express')
 const router = express.Router()
 
-const User = require('../../models/userSchema');
+const { User } = require('../../models/userSchema');
 const { Deck }= require('../../models/dataSchema');
 const auth = require('../../auth');
 
@@ -21,7 +21,7 @@ router.get('/users/me', auth, async(req, res) => {
 })
 
 router.get('/seeAllDecks', async (req, res) => {
-    const decks = await Deck.find()
+    const decks = await Deck.find({ private: "false" })
     if(decks.length > 0) {
         res.status(200).json(decks)
     }
