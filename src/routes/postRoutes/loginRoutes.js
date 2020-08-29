@@ -5,7 +5,7 @@ const router = express.Router();
 const { User } = require('../../models/userSchema');
 const auth = require('../../auth');
 
-router.post('/users', async (req, res) => {
+router.post('/signUp', async (req, res) => {
 
     const userName = req.body.name;
     const userPassoword = req.body.password;

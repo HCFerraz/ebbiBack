@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
-// const ObjectId = mongoose.Schema.ObjectId
 const hasher = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const userDecksSchema = new mongoose.Schema({
-    userDecks: String
+const Ids = mongoose.Schema({
+    id: String,
+    _id: false 
 })
 
 const userSchema = mongoose.Schema({
@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
             required: true
         }
     }],
-    decks: [userDecksSchema]
+    decks_ID: [Ids]
 })
 
 userSchema.pre('save', async function (next) {
@@ -57,10 +57,10 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
-const UserDeckIDs = mongoose.model('Ids', userDecksSchema)
 const User = mongoose.model('Usuario', userSchema)
+const UserDeckIDs = mongoose.model('UserDeck', Ids)
 
 module.exports = {
-    UserDeckIDs,
-    User
+    User,
+    UserDeckIDs
 };

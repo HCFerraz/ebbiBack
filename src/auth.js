@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { User} = require('./models/userSchema')
+const { User } = require('./models/userSchema')
 
 const auth = async (req, res, next) => {
     const token = req.header('Authorization').replace('Bearer ', '')
@@ -15,6 +15,6 @@ const auth = async (req, res, next) => {
     } catch (error) {
         res.status(401).send({ error: 'Not authorized to access this resource' })
     }
-
 }
+
 module.exports = auth
